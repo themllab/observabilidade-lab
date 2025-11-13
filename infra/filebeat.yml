@@ -1,0 +1,19 @@
+filebeat.inputs:
+  - type: log
+    enabled: true
+    paths:
+      - /logs/producer/*.json
+      - /logs/consumer/*.json
+    json.keys_under_root: true
+    json.add_error_key: true
+
+output.elasticsearch:
+  hosts: ["http://elasticsearch:9200"]
+  index: "observability-logs-%{+yyyy.MM.dd}"
+
+setup.template.name: "observability"
+setup.template.pattern: "observability-*"
+setup.ilm.enabled: false
+
+logging.level: info
+
